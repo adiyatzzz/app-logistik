@@ -1,5 +1,9 @@
 <?php
 include('class/init.php');
+if (!isset($_SESSION["login"])) {
+    header("Location: login.php");
+    exit;
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -60,7 +64,7 @@ include('class/init.php');
                     </form>
                     <ul class="navbar-nav">
                         <li class="nav-item">
-                            <a href="" class="nav-link text-dark">logout</a>
+                            <a href="proses.php?act=logout" class="nav-link text-dark">logout</a>
                         </li>
                     </ul>
                 </div>

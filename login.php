@@ -7,6 +7,7 @@ include('class/init.php');
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="assets/datatables/datatables.min.css" />
     <link rel="stylesheet" href="assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/css/style.css">
     <title>Warehouse - Login</title>
@@ -18,7 +19,7 @@ include('class/init.php');
             <div class="login-icon d-flex justify-content-center">
                 <img src="assets/img/padlock.png" width="50">
             </div>
-            <form action="" method="post">
+            <form action="proses.php?act=login" method="post">
                 <div class="form-group">
                     <input type="text" name="username" id="username" placeholder="Username">
                 </div>
@@ -37,6 +38,7 @@ include('class/init.php');
     </div>
 
     <script src="assets/js/jquery-3.5.1.min.js"></script>
+    <script type="text/javascript" src="assets/datatables/datatables.min.js"></script>
     <script src="assets/js/bootstrap.min.js"></script>
     <script src="assets/js/myscript.js"></script>
 </body>
