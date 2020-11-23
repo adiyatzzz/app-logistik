@@ -1,4 +1,5 @@
 <?php
+session_start();
 
 class database
 {
@@ -57,5 +58,40 @@ class database
         $sql .= " WHERE " . implode('', array_keys($where)) . " = '" . implode('', array_values($where)) . "'";
         mysqli_query($this->conn, $sql);
         return mysqli_affected_rows($this->conn);
+    }
+
+    function login($username, $password)
+    {
+        $cek_user = $this->select("SELECT * FROM m_user WHERE username = '$username'");
+        if (count($cek_user) > 0) {
+            $cek_user = $cek_user[0];
+            if (password_verify($password, $cek_user["password"])) {
+                $_SESSION["login"] = true;
+                echo "<script>
+                    window.location.href = 'index.php';
+                </script>";
+            } else {
+                echo "<script>
+                alert('Password Salah');
+                window.location.href = 'login.php';
+            </script>";
+            }
+        } else {
+            echo "<script>
+                alert('Akun belum di registrasi');
+                window.location.href = 'login.php';
+            </script>";
+        }
+    }
+
+    public function logout()
+    {
+        session_unset();
+        session_destroy();
+    }
+
+    public function generateRandomString($length = 10)
+    {
+        return substr(str_shuffle(str_repeat($x = '0123456789abcdefghijklmnopqrstuvwxyz', ceil($length / strlen($x)))), 1, $length);
     }
 }

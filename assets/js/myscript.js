@@ -22,6 +22,7 @@ $('.register-btn').click(function () {
         $('#email').slideDown();
         $('.register-btn').parent().append(`<span class="gotologin">Already have account? click here</span>`);
         $('.register-btn').attr('type', 'submit');
+        $('.login-form form').attr('action', 'proses.php?act=register');
     }, 400);
 });
 
@@ -31,7 +32,9 @@ $(document).on('click', '.gotologin', function () {
     setTimeout(() => {
         $('.login-btn').slideDown();
         $('.gotologin').remove();
+
     }, 400);
+    $('.login-form form').attr('action', 'proses.php?act=login');
     $('.register-btn').attr('type', 'button');
 });
 
