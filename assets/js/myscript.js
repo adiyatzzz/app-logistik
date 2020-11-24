@@ -13,6 +13,8 @@ $(document).ready(function () {
             { "orderable": false, "targets": lastColumn - 1 }
         ]
     });
+
+    console.log(table);
 });
 
 // register button is clicked
