@@ -79,6 +79,9 @@ if (!isset($_SESSION["login"])) {
                 case 'user':
                     require_once 'template/user.php';
                     break;
+                case 'edit_user':
+                    require_once 'template/edit_user.php';
+                    break;
                 case 'item':
                     require_once 'template/item.php';
                     break;

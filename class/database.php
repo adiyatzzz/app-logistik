@@ -26,6 +26,33 @@ class database
         return $rows;
     }
 
+    /*
+    EXAMPLE
+
+    $name = $_POST["name"];
+    $type = $_POST["type"];
+    $dimensions = $_POST["dimensions"];
+
+    Left = column name
+    right = value
+
+    $data = [
+        "name" => $name,
+        "dimensions" => $dimensions,
+        "id_typeitem" => $type
+    ];
+
+    - call the function
+    - first parameter is table name
+    - second parameter is an array
+
+    if ($db->insert("m_item", $data) > 0) {
+        $_SESSION["flash"] = "Di Tambah";
+        header("Location: ./?p=item");
+    } else {
+        echo 'gagal';
+    }
+    */
     public function insert($table, $data)
     {
         // set array key and vale into string
@@ -37,6 +64,27 @@ class database
         return mysqli_affected_rows($this->conn);
     }
 
+    /*
+    EXAMPLE
+    - get the id
+    $id_item = $_GET["id"];
+
+    - set array, the row you want to delete
+    left : column name
+    right : value
+    $data = [
+        "id_item" => $id_item
+    ];
+
+    - first parameter is table name
+    - second parameter is an array
+    if ($db->delete("m_item", $data) > 0) {
+        $_SESSION["flash"] = "Di Hapus";
+        header("Location: ./?p=item");
+    } else {
+        echo 'gagal';
+    }
+    */
     public function delete($table, $data)
     {
         // get key and value
@@ -48,6 +96,34 @@ class database
         return mysqli_affected_rows($this->conn);
     }
 
+    /*
+    EXAMPLE
+
+    $id = $_GET["id"];
+    $name = $_POST["name"];
+    $type = $_POST["type"];
+    $dimensions = $_POST["dimensions"];
+
+    - set an array the key must same as column name
+    $data = [
+        "name" => $name,
+        "dimensions" => $dimensions,
+        "id_typeitem" => $type
+    ];
+
+    - call the function 
+    parameter
+    1. table name
+    2. data that you want to update
+    3. the id of the column
+    
+    if ($db->edit("m_item", $data, ["id_item" => $id]) > 0) {
+        $_SESSION["flash"] = "Di Edit";
+        header("Location: ./?p=item");
+    } else {
+        echo 'gagal';
+    }
+    */
     public function edit($table, $data, $where)
     {
         $sql = "UPDATE $table SET ";

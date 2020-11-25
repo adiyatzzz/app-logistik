@@ -1,11 +1,11 @@
 <?php
 
-$users = $db->select("SELECT * FROM m_user");
+$users = $db->select("SELECT * FROM m_user WHERE deleted_at IS NULL OR deleted_at = ''");
 
 ?>
-<div class="container">
+<div class="container mb-3">
     <div class="row mt-3">
-        <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#addItem">
+        <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#addUser">
             <i class="fas fa-user-plus"></i><span class="ml-1">Tambah User</span>
         </a>
     </div>
@@ -56,38 +56,33 @@ $users = $db->select("SELECT * FROM m_user");
 </div>
 
 <!-- Modal -->
-<div class="modal fade" id="addItem" tabindex="-1" aria-labelledby="addItemLabel" aria-hidden="true">
+<div class="modal fade" id="addUser" tabindex="-1" aria-labelledby="addUserLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="addItemLabel">Tambah Item</h5>
+                <h5 class="modal-title" id="addUserLabel">Tambah Item</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form action="proses.php?act=tambah_item" method="post">
+            <form action="proses.php?act=tambah_user" method="post">
                 <div class="modal-body">
                     <div class="form-group">
-                        <label for="name">Name Item</label>
-                        <input type="text" class="form-control" id="name" name="name" placeholder="Name Item...">
+                        <label for="username">Name User</label>
+                        <input type="text" class="form-control" id="username" name="username" placeholder="Username...">
                     </div>
                     <div class="form-group">
-                        <label for="type">Item Type</label>
-                        <select class="form-control" id="type" name="type">
-                            <option>Select Type</option>
-                            <?php foreach ($item_type as $type) : ?>
-                                <option value="<?= $type["id_typeitem"] ?>"><?= $type["name_item"] ?></option>
-                            <?php endforeach; ?>
-                        </select>
+                        <label for="password">Password</label>
+                        <input type="password" class="form-control" id="password" name="password" placeholder="Password...">
                     </div>
                     <div class="form-group">
-                        <label for="dimensions">Dimensions</label>
-                        <input type="number" class="form-control" id="dimensions" name="dimensions" placeholder="Dimension">
+                        <label for="mail">Email</label>
+                        <input type="email" class="form-control" id="mail" name="email" placeholder="Email...">
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Save changes</button>
+                    <button type="submit" class="btn btn-primary">Tambah</button>
                 </div>
             </form>
         </div>
