@@ -41,7 +41,7 @@ if (!isset($_SESSION["login"])) {
                             <a class="nav-link text-dark" href="?p=item">Item</a>
                         </li>
                         <li class="nav-item <?= (isset($_GET["p"]) && $_GET["p"] == "warehouse") ? "active" : "" ?>">
-                            <a class="nav-link text-dark" href="#">Warehouse</a>
+                            <a class="nav-link text-dark" href="?p=warehouse">Warehouse</a>
                         </li>
                         <li class="nav-item <?= (isset($_GET["p"]) && $_GET["p"] == "storage") ? "active" : "" ?>">
                             <a class="nav-link text-dark" href="#">Storage</a>
@@ -88,6 +88,12 @@ if (!isset($_SESSION["login"])) {
                 case 'edit_item':
                     require_once 'template/edit_item.php';
                     break;
+                case 'warehouse':
+                    require_once 'template/warehouse.php';
+                    break;
+                case 'edit_warehouse':
+                    require_once 'template/edit_warehouse.php';
+                    break;              
 
                 default:
                     require_once 'template/404.php';
