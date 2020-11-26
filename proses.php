@@ -46,6 +46,36 @@ if ($_GET["act"] == "tambah_item") {
     } else {
         echo 'gagal';
     }
+} elseif ($_GET["act"] == "hapus_warehouse") {
+    $id_warehouse = $_GET["id"];
+    $data = [
+        "id_warehouse" => $id_warehouse
+    ];
+    if ($db->delete("m_warehouse", $data) > 0) {
+        $_SESSION["flash"] = "Di Hapus";
+        header("Location: ./?p=warehouse");
+    } else {
+        echo 'gagal';
+    }
+} elseif ($_GET["act"] == "edit_warehouse") {
+    $id = $_GET["id"];
+    $name = $_POST["name"];
+    $type = $_POST["type"];
+    $capacity = $_POST["capacity"];
+    $address = $_POST["address"];
+    $data = [
+        "name" => $name,
+        "capacity" => $capacity,
+        "address" => $address,   
+        "id_typewarehouse" => $type
+    ];
+
+    if ($db->edit("m_warehouse", $data, ["id_warehouse" => $id]) > 0) {
+        $_SESSION["flash"] = "Di Edit";
+        header("Location: ./?p=warehouse");
+    } else {
+        echo 'gagal';
+    }
 } elseif ($_GET["act"] == "register") {
     $username = $_POST["username"];
     $password = password_hash($_POST["password"], PASSWORD_BCRYPT);
