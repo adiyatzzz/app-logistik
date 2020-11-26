@@ -17,7 +17,7 @@ $warehouse_type = $db->select("SELECT * FROM m_typewarehouse");
         <div class="col p-0">
             <?php if (isset($_SESSION["flash"])) : ?>
                 <div class="alert alert-success alert-dismissible fade show" role="alert">
-                    Item telah <strong><?= $_SESSION["flash"] ?></strong>.
+                    Warehouse telah <strong><?= $_SESSION["flash"] ?></strong>.
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>

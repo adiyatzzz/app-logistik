@@ -5,6 +5,7 @@ if ($_GET["act"] == "tambah_item") {
     $name = $_POST["name"];
     $type = $_POST["type"];
     $dimensions = $_POST["dimensions"];
+    $warehouse = $_POST["warehouse"];
 
     $data = [
         "name" => $name,
@@ -13,6 +14,12 @@ if ($_GET["act"] == "tambah_item") {
     ];
 
     if ($db->insert("m_item", $data) > 0) {
+        $id_item = $db->select("SELECT MAX(id_item) AS id_item FROM m_item");
+        $data = [
+            "id_item" => $id_item[0]["id_item"],
+            "id_warehouse" => $warehouse
+        ];
+        $db->insert("m_warehousestorage", $data);
         $_SESSION["flash"] = "Di Tambah";
         header("Location: ./?p=item");
     } else {
@@ -34,13 +41,18 @@ if ($_GET["act"] == "tambah_item") {
     $name = $_POST["name"];
     $type = $_POST["type"];
     $dimensions = $_POST["dimensions"];
+    $warehouse = $_POST["warehouse"];
     $data = [
         "name" => $name,
         "dimensions" => $dimensions,
         "id_typeitem" => $type
     ];
 
-    if ($db->edit("m_item", $data, ["id_item" => $id]) > 0) {
+    $data_storage = [
+        "id_item" => $id,
+        "id_warehouse" => $warehouse
+    ];
+    if ($db->edit("m_item", $data, ["id_item" => $id]) > 0 || $db->edit("m_warehousestorage", $data_storage, ["id_item" => $id]) > 0) {
         $_SESSION["flash"] = "Di Edit";
         header("Location: ./?p=item");
     } else {

@@ -4,6 +4,7 @@ $items = $db->select("SELECT `m_item`.* , `m_typeitem`.`name_item` AS tipe_item
                     ON `m_item`.`id_typeitem` = `m_typeitem`.`id_typeitem`
                     ");
 $item_type = $db->select("SELECT * FROM m_typeitem");
+$warehouse = $db->select("SELECT * FROM m_warehouse");
 ?>
 <div class="container mb-3">
     <div class="row mt-3">
@@ -83,6 +84,15 @@ $item_type = $db->select("SELECT * FROM m_typeitem");
                     <div class="form-group">
                         <label for="dimensions">Dimensions</label>
                         <input type="number" class="form-control" id="dimensions" name="dimensions" placeholder="Dimension">
+                    </div>
+                    <div class="form-group">
+                        <label for="warehouse">Warehouse</label>
+                        <select class="form-control" id="warehouse" name="warehouse">
+                            <option>Select Warehouse</option>
+                            <?php foreach ($warehouse as $w) : ?>
+                                <option value="<?= $w["id_warehouse"] ?>"><?= $w["name"] ?></option>
+                            <?php endforeach; ?>
+                        </select>
                     </div>
                 </div>
                 <div class="modal-footer">

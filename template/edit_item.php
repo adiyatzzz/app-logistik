@@ -2,15 +2,20 @@
 // get id from url
 $item_id = $_GET["id"];
 // select m_item with specific id
-$item = $db->select("SELECT * FROM m_item WHERE id_item = $item_id");
+$item = $db->select("SELECT `m_item`.*,`m_item`.`name` AS `item_name`, `m_warehouse`.* , `m_warehouse`.`name` AS `warehouse_name` FROM m_warehousestorage
+                    INNER JOIN `m_warehouse` ON `m_warehouse`.`id_warehouse` = `m_warehousestorage`.`id_warehouse`
+                    INNER JOIN `m_item` ON `m_item`.`id_item` = `m_warehousestorage`.`id_item`
+                    WHERE `m_item`.`id_item` = $item_id");
 // select all row m_typeitem
 $item_type = $db->select("SELECT * FROM m_typeitem");
+$warehouse = $db->select("SELECT * FROM m_warehouse");
 
 foreach ($item as $data) {
     $id_item = $data["id_item"];
-    $name_item = $data["name"];
+    $name_item = $data["item_name"];
     $dimensions = $data["dimensions"];
     $id_typeitem = $data["id_typeitem"];
+    $id_warehouse = $data["id_warehouse"];
 }
 ?>
 <div class="container mt-3">
@@ -37,6 +42,15 @@ foreach ($item as $data) {
                             <label for="dimensions">Dimensions</label>
                             <input type="number" class="form-control" id="dimensions" name="dimensions" placeholder="Dimension" value="<?= $dimensions ?>">
                         </div>
+                        <div class="form-group">
+                        <label for="warehouse">Warehouse</label>
+                        <select class="form-control" id="warehouse" name="warehouse">
+                            <option>Select Warehouse</option>
+                            <?php foreach ($warehouse as $w) : ?>
+                                <option value="<?= $w["id_warehouse"] ?>"  <?= ($w["id_warehouse"] == $id_warehouse) ? "selected" : "" ?>><?= $w["name"] ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
                         <div class="form-group">
                             <button type="submit" class="btn btn-primary">Edit</button>
                         </div>
