@@ -46,7 +46,7 @@ $warehouse_type = $db->select("SELECT * FROM m_typewarehouse");
                             <td><?= $warehouse["capacity"] ?></td>
                             <td><?= $warehouse["address"] ?></td>
                             <td>
-                                <a href="proses.php?act=hapus_warehouse&id=<?= $warehouse["id_warehouse"] ?>" class="btn btn-sm btn-danger" onclick="return confirm('Yakin?')"><i class="fas fa-trash"></i></i></a>
+                                <a href="proses.php?act=hapus_warehouse&id=<?= $warehouse["id_warehouse"] ?>" class="btn btn-sm btn-danger" onclick="return confirm('Yakin? Semua item akan dihapus.')"><i class="fas fa-trash"></i></i></a>
                                 <a href="?p=edit_warehouse&id=<?= $warehouse["id_warehouse"] ?>" class="btn btn-sm btn-success"><i class="fas fa-pencil-alt"></i></a>
                             </td>
                         </tr>
@@ -93,7 +93,7 @@ $warehouse_type = $db->select("SELECT * FROM m_typewarehouse");
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Save changes</button>
+                    <button type="submit" class="btn btn-primary">Tambah</button>
                 </div>
             </form>
         </div>
