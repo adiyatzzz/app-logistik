@@ -136,6 +136,30 @@ class database
         return mysqli_affected_rows($this->conn);
     }
 
+    public function check_capacity($id_warehouse, $dimensions){
+        // get max capacity of warehouse
+        $max_capacity = $this->select("SELECT capacity FROM m_warehouse WHERE id_warehouse = $id_warehouse");
+        $max_capacity = $max_capacity[0]["capacity"];
+        // get current capacity
+        $all_item_dimension = $this->select("SELECT `m_item`.`dimensions`
+                                        FROM `m_warehousestorage` JOIN `m_item` 
+                                        ON `m_warehousestorage`.`id_item` = `m_item`.`id_item`
+                                        WHERE id_warehouse = $id_warehouse");
+        // count total dimension
+        $total_capacity = 0;
+        foreach ($all_item_dimension as $data) {
+            $total_capacity += $data["dimensions"];
+        }
+        $total_capacity += $dimensions;
+
+        // if total capacity more than max_capacity return false
+        if ($total_capacity > $max_capacity) {
+            return $max_capacity - ($total_capacity - $dimensions);
+        }else{
+            return true;
+        }
+    }   
+
     function login($username, $password)
     {
         $cek_user = $this->select("SELECT * FROM m_user WHERE username = '$username'");
@@ -144,7 +168,7 @@ class database
             if (password_verify($password, $cek_user["password"])) {
                 $_SESSION["login"] = true;
                 echo "<script>
-                    window.location.href = 'index.php';
+                    window.location.href = './';
                 </script>";
             } else {
                 echo "<script>
@@ -164,6 +188,7 @@ class database
     {
         session_unset();
         session_destroy();
+        header("Location: login.php");
     }
 
     public function generateRandomString($length = 10)
