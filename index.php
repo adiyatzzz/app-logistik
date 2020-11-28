@@ -32,7 +32,7 @@ if (!isset($_SESSION["login"])) {
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item <?= (!isset($_GET["p"])) ? "active" : "" ?>">
-                            <a class="nav-link text-dark" href="index.php">Home <span class="sr-only">(current)</span></a>
+                            <a class="nav-link text-dark" href="./">Home <span class="sr-only">(current)</span></a>
                         </li>
                         <li class="nav-item <?= (isset($_GET["p"]) && $_GET["p"] == "user") ? "active" : "" ?>">
                             <a class="nav-link text-dark" href="?p=user">User</a>
@@ -44,10 +44,10 @@ if (!isset($_SESSION["login"])) {
                             <a class="nav-link text-dark" href="?p=warehouse">Warehouse</a>
                         </li>
                         <li class="nav-item <?= (isset($_GET["p"]) && $_GET["p"] == "storage") ? "active" : "" ?>">
-                            <a class="nav-link text-dark" href="#">Storage</a>
+                            <a class="nav-link text-dark" href="?p=storage">Storage</a>
                         </li>
                         <li class="nav-item <?= (isset($_GET["p"]) && $_GET["p"] == "report") ? "active" : "" ?>">
-                            <a class="nav-link text-dark" href="#">Report</a>
+                            <a class="nav-link text-dark" href="?p=report">Report</a>
                         </li>
 
                     </ul>
@@ -93,6 +93,12 @@ if (!isset($_SESSION["login"])) {
                     break;
                 case 'edit_warehouse':
                     require_once 'template/edit_warehouse.php';
+                    break;              
+                case 'storage':
+                    require_once 'template/storage.php';
+                    break;              
+                case 'report':
+                    require_once 'template/report.php';
                     break;              
 
                 default:
