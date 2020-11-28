@@ -12,25 +12,39 @@ if ($_GET["act"] == "tambah_item") {
         "dimensions" => $dimensions,
         "id_typeitem" => $type
     ];
-
-    if ($db->insert("m_item", $data) > 0) {
-        $id_item = $db->select("SELECT MAX(id_item) AS id_item FROM m_item");
-        $data = [
-            "id_item" => $id_item[0]["id_item"],
-            "id_warehouse" => $warehouse
-        ];
-        $db->insert("m_warehousestorage", $data);
-        $_SESSION["flash"] = "Di Tambah";
-        header("Location: ./?p=item");
-    } else {
-        echo 'gagal';
+    
+    // check if space available
+    $capacity = $db->check_capacity($warehouse, $dimensions);
+    // if over capacity
+    if ($capacity !== true) {
+        echo "<script>
+                alert('Gagal! kapasitas melebihi batas.tersisa $capacity');
+                window.location.href = './?p=item';
+            </script>";
+    }else{
+        // insert to database
+        if ($db->insert("m_item", $data) > 0) {
+            $id_item = $db->select("SELECT MAX(id_item) AS id_item FROM m_item");
+            $data = [
+                "id_item" => $id_item[0]["id_item"],
+                "id_warehouse" => $warehouse
+            ];
+            $db->insert("m_warehousestorage", $data);
+            $_SESSION["flash"] = "Di Tambah";
+            header("Location: ./?p=item");
+        } else {
+            echo "<script>
+                    alert('Gagal!');
+                    window.location.href = './?p=item';
+                </script>";
+        }
     }
 } elseif ($_GET["act"] == "hapus_item") {
     $id_item = $_GET["id"];
     $data = [
         "id_item" => $id_item
     ];
-    if ($db->delete("m_item", $data) > 0) {
+    if ($db->delete("m_warehousestorage", $data) > 0 && $db->delete("m_item", $data) > 0) {
         $_SESSION["flash"] = "Di Hapus";
         header("Location: ./?p=item");
     } else {
@@ -52,11 +66,25 @@ if ($_GET["act"] == "tambah_item") {
         "id_item" => $id,
         "id_warehouse" => $warehouse
     ];
-    if ($db->edit("m_item", $data, ["id_item" => $id]) > 0 || $db->edit("m_warehousestorage", $data_storage, ["id_item" => $id]) > 0) {
-        $_SESSION["flash"] = "Di Edit";
-        header("Location: ./?p=item");
-    } else {
-        echo 'gagal';
+
+    // check if capacity still available
+    $capacity = $db->check_capacity($warehouse, $dimensions);
+    // if over capacity
+    if ($capacity !== true) {
+        echo "<script>
+                alert('Gagal! kapasitas melebihi batas.tersisa $capacity');
+                window.location.href = './?p=edit_item&id=$id';
+            </script>";
+    }else{
+        if ($db->edit("m_item", $data, ["id_item" => $id]) > 0 || $db->edit("m_warehousestorage", $data_storage, ["id_item" => $id]) > 0) {
+            $_SESSION["flash"] = "Di Edit";
+            header("Location: ./?p=item");
+        } else {
+            echo "<script>
+                    alert('Gagal!');
+                    window.location.href = './?p=edit_item&id=$id';
+                </script>";
+        }
     }
 }elseif($_GET["act"] == "tambah_warehouse"){
     $name = $_POST["name"];
@@ -79,10 +107,14 @@ if ($_GET["act"] == "tambah_item") {
     }
 } elseif ($_GET["act"] == "hapus_warehouse") {
     $id_warehouse = $_GET["id"];
+    $id_item = $db->select("SELECT id_item FROM m_warehousestorage WHERE id_warehouse = $id_warehouse");
     $data = [
         "id_warehouse" => $id_warehouse
     ];
-    if ($db->delete("m_warehouse", $data) > 0) {
+    if ($db->delete("m_warehousestorage", ["id_warehouse" => $id_warehouse]) && $db->delete("m_warehouse", $data) > 0) {
+        foreach ($id_item as $item) {
+            $db->delete("m_item", ["id_item" => $item["id_item"]]);
+        }
         $_SESSION["flash"] = "Di Hapus";
         header("Location: ./?p=warehouse");
     } else {
@@ -139,7 +171,6 @@ if ($_GET["act"] == "tambah_item") {
     $db->login($_POST["username"], $_POST["password"]);
 } elseif ($_GET["act"] == "logout") {
     $db->logout();
-    header("Location: login.php");
 } elseif ($_GET["act"] == "tambah_user") {
     $username = $_POST["username"];
     $password = password_hash($_POST["password"], PASSWORD_BCRYPT);
