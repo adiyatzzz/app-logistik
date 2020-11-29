@@ -111,7 +111,7 @@ if ($_GET["act"] == "tambah_item") {
     $data = [
         "id_warehouse" => $id_warehouse
     ];
-    if ($db->delete("m_warehousestorage", ["id_warehouse" => $id_warehouse]) && $db->delete("m_warehouse", $data) > 0) {
+    if ($db->delete("m_warehousestorage", ["id_warehouse" => $id_warehouse]) || $db->delete("m_warehouse", $data) > 0) {
         foreach ($id_item as $item) {
             $db->delete("m_item", ["id_item" => $item["id_item"]]);
         }

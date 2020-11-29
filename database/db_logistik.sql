@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 24, 2020 at 01:18 PM
+-- Generation Time: Nov 29, 2020 at 12:09 PM
 -- Server version: 10.1.37-MariaDB
 -- PHP Version: 7.3.1
 
@@ -40,12 +40,11 @@ CREATE TABLE `m_item` (
 --
 
 INSERT INTO `m_item` (`id_item`, `name`, `dimensions`, `id_typeitem`) VALUES
-(1, 'Sapi', 10, 1),
-(2, 'Beras raskin', 20, 2),
-(4, 'Es', 5, 1),
-(5, 'Meja', 10, 2),
-(6, 'Nugget', 15, 1),
-(7, 'Knalpot Resing', 666, 2);
+(2, 'Beras Raskin', 20, 2),
+(7, 'Knalpot Resing', 50, 2),
+(10, 'Sosis', 15, 1),
+(16, 'Ayam', 211, 1),
+(17, 'Es', 20, 1);
 
 -- --------------------------------------------------------
 
@@ -106,7 +105,11 @@ CREATE TABLE `m_user` (
 --
 
 INSERT INTO `m_user` (`id_user`, `username`, `password`, `email`, `created_at`, `update_at`, `deleted_at`) VALUES
-('4h6jzmd3-rtw8-840j-xw9v2jnkgozxlf7p', 'admin', '$2y$10$Rrmoyvq.jcKlMnWN9iqkP.A13h8eQ9zcGVoHw.29oxUBXVKESQ3H.', 'admin@gmail.com', '2020-11-23 07:11:35', NULL, NULL);
+('4h6jzmd3-rtw8-840j-xw9v2jnkgozxlf7p', 'admin', '$2y$10$Rrmoyvq.jcKlMnWN9iqkP.A13h8eQ9zcGVoHw.29oxUBXVKESQ3H.', 'admin@gmail.com', '2020-11-23 07:11:35', NULL, NULL),
+('8ptf04ov-e3lf-n10y-reqdbhty8d695un1', 'tes', '$2y$10$IJTde8yKxKYqByFk8H.fIesZHrIbhISASRNRx6rWipYV.AADWKk6G', 'tes@gmail.com', '2020-11-24 01:11:40', NULL, '2020-11-25 05:11:35'),
+('8qf5owsu-svca-8ruk-srzg6mqyidh8vk0w', 'adiyat', '$2y$10$cX82j4lt5U.9mkqDNNcFjOYOF5sgBPhdkY9xToBr5.riMgmp16pK6', 'adiyat@gmail.com', '2020-11-27 07:11:03', NULL, NULL),
+('qj6h2xkl-ld5q-uqd6-5racvrnky4odfgeb', 'Adiyatzzz', '$2y$10$DCR27fdqH1/tlITAhWBKvOMYyjoxQHIlgLT3l8UYPDurjygt7EIZO', 'adiyat@gmail.com', '2020-11-24 01:11:42', '2020-11-24 02:11:50', '2020-11-25 05:11:47'),
+('v342e1y0-1dqy-caz4-nyoj4fukv237j98c', 'utuh', '$2y$10$P3Net4Xp/lEJgUMgK5zXte4fjJBLOOc56W.z1nDb0Z8420lOUaslK', 'utuh@gmail.com', '2020-11-24 01:11:25', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -127,26 +130,31 @@ CREATE TABLE `m_warehouse` (
 --
 
 INSERT INTO `m_warehouse` (`id_warehouse`, `name`, `capacity`, `address`, `id_typewarehouse`) VALUES
-(1, 'Warehouse Utuh', 500, 'Jl. Lurus', 2);
+(1, 'Warehouse Utuh', 500, 'Jl. Lurus', 1),
+(3, 'Warehouse Agung', 555, 'Olala', 2);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `m_warehouserstorage`
+-- Table structure for table `m_warehousestorage`
 --
 
-CREATE TABLE `m_warehouserstorage` (
+CREATE TABLE `m_warehousestorage` (
   `id_warehousestorage` int(11) NOT NULL,
   `id_item` int(11) NOT NULL,
   `id_warehouse` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `m_warehouserstorage`
+-- Dumping data for table `m_warehousestorage`
 --
 
-INSERT INTO `m_warehouserstorage` (`id_warehousestorage`, `id_item`, `id_warehouse`) VALUES
-(1, 2, 1);
+INSERT INTO `m_warehousestorage` (`id_warehousestorage`, `id_item`, `id_warehouse`) VALUES
+(1, 2, 3),
+(3, 7, 3),
+(5, 10, 1),
+(11, 16, 3),
+(12, 17, 1);
 
 --
 -- Indexes for dumped tables
@@ -186,9 +194,9 @@ ALTER TABLE `m_warehouse`
   ADD KEY `id_typewarehouse` (`id_typewarehouse`);
 
 --
--- Indexes for table `m_warehouserstorage`
+-- Indexes for table `m_warehousestorage`
 --
-ALTER TABLE `m_warehouserstorage`
+ALTER TABLE `m_warehousestorage`
   ADD PRIMARY KEY (`id_warehousestorage`),
   ADD KEY `id_item` (`id_item`),
   ADD KEY `id_warehouse` (`id_warehouse`);
@@ -201,7 +209,7 @@ ALTER TABLE `m_warehouserstorage`
 -- AUTO_INCREMENT for table `m_item`
 --
 ALTER TABLE `m_item`
-  MODIFY `id_item` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id_item` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `m_typeitem`
@@ -219,13 +227,13 @@ ALTER TABLE `m_typewarehouse`
 -- AUTO_INCREMENT for table `m_warehouse`
 --
 ALTER TABLE `m_warehouse`
-  MODIFY `id_warehouse` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_warehouse` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- AUTO_INCREMENT for table `m_warehouserstorage`
+-- AUTO_INCREMENT for table `m_warehousestorage`
 --
-ALTER TABLE `m_warehouserstorage`
-  MODIFY `id_warehousestorage` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+ALTER TABLE `m_warehousestorage`
+  MODIFY `id_warehousestorage` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- Constraints for dumped tables
@@ -244,11 +252,11 @@ ALTER TABLE `m_warehouse`
   ADD CONSTRAINT `m_warehouse_ibfk_1` FOREIGN KEY (`id_typewarehouse`) REFERENCES `m_typewarehouse` (`id_typewarehouse`);
 
 --
--- Constraints for table `m_warehouserstorage`
+-- Constraints for table `m_warehousestorage`
 --
-ALTER TABLE `m_warehouserstorage`
-  ADD CONSTRAINT `m_warehouserstorage_ibfk_1` FOREIGN KEY (`id_item`) REFERENCES `m_item` (`id_item`),
-  ADD CONSTRAINT `m_warehouserstorage_ibfk_2` FOREIGN KEY (`id_warehouse`) REFERENCES `m_warehouse` (`id_warehouse`);
+ALTER TABLE `m_warehousestorage`
+  ADD CONSTRAINT `m_warehousestorage_ibfk_1` FOREIGN KEY (`id_item`) REFERENCES `m_item` (`id_item`),
+  ADD CONSTRAINT `m_warehousestorage_ibfk_2` FOREIGN KEY (`id_warehouse`) REFERENCES `m_warehouse` (`id_warehouse`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
